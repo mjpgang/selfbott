@@ -21,8 +21,8 @@ let latestData = {
 // 過去の履歴を保持する配列
 const historyData = [];
 
-// Discordクライアントの初期化
-const client = new Client();
+// Discordクライアントの初期化（アップデート確認などを無効化して安定させる設定）
+const client = new Client({ checkUpdate: false });
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -85,15 +85,21 @@ app.get('/', (req, res) => {
   res.send('Discord Selfbot API is running');
 });
 
-// サーバー起動
-app.listen(PORT, () => {
+// サーバー起動（クラウド環境向けに '0.0.0.0' を明示）
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-// Discordにログイン（環境変数 DISCORD_TOKEN から読み込む）
-// トークンを直接文字列として記述する
-const token = "MTUzNjIxNjM1MTMzNTY0OTM1Mg.Gnnuyv.I6sCzgjM74hCLenZcZWHhAikoCoZWD-8HZmKlg";
+// Discordにログイン
+// 環境変数 DISCORD_TOKEN があればそれを使い、なければ右側の文字列を使用する
+const token = process.env.DISCORD_TOKEN || "MTUzNjIxNjM1MTMzNTY0OTM1Mg.Gnnuyv.I6sCzgjM74hCLenZcZWHhAikoCoZWD-8HZmKlg";
 
-client.login(token);
-
+if (!token || token === "your_token_here") {
+  console.error('⚠️ 警告: トークンが正しく設定されていません。APIサーバーは起動しますが、Discordの監視は行われません。');
+} else {
+  // 万が一ログインエラーになっても、強制終了させずにエラーログだけ出す
+  client.login(token).catch(error => {
+    console.error('Discord login failed:', error);
+  });
+}
 
