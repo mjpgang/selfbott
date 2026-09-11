@@ -91,11 +91,9 @@ app.listen(PORT, () => {
 });
 
 // Discordにログイン（環境変数 DISCORD_TOKEN から読み込む）
-const token = process.env.DISCORD_TOKEN;
-if (!token) {
-  console.error('Error: DISCORD_TOKEN environment variable is not set.');
-  process.exit(1);
-}
+// トークンを直接文字列として記述する
+const token = "MTUzNjIxNjM1MTMzNTY0OTM1Mg.Gnnuyv.I6sCzgjM74hCLenZcZWHhAikoCoZWD-8HZmKlg";
 
 client.login(token);
+
 
