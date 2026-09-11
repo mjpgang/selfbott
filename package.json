@@ -7,12 +7,11 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "discord.js-selfbot-v13": "^13.14.2",
+    "discord.js-selfbot-v13": "latest",
     "express": "^4.19.2",
     "cors": "^2.8.5"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   }
 }
-
